@@ -5,6 +5,9 @@
  */
 package Practice;
 
+import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 /**
  *
  * @author Admin
@@ -71,13 +74,18 @@ public class Customer {
         this.tax = tax;
     }
     
-    public float CalculateTheAmount (){
-        return this.moneyNumber - this.percentageOfDiscount + this.tax*this.moneyNumber;
+    public float calculate() {
+        return this.moneyNumber - this.percentageOfDiscount + this.percentageOfDiscount * this.tax;
     }
     
-    @Override
-	public String toString() {
-		return "Fullname: " + this.fullname + ", Address: " + this.address + 
-	            ", số điện thoại: " + this.phone + ", Tiền trả trước chiết khấu và thuế: " + this.moneyNumber +",Thuế:" +this.tax;
-	}
+    public static Customer createObject(ResultSet resultSet) throws SQLException {
+        String fullname = resultSet.getString("fullname");
+        String address = resultSet.getString("address");
+        int phone = resultSet.getInt("phone");
+        float moneyNumber = resultSet.getFloat("phone");
+        float percentageOfDiscount = resultSet.getFloat("percentageOfDiscount");
+        float tax = resultSet.getFloat("tax");
+
+        return new Customer(fullname, address,phone, moneyNumber, percentageOfDiscount,tax);
+    }
 }
